@@ -1,7 +1,8 @@
 #!/bin/bash
 
+docker run -it --workdir="/app" -v $(pwd):/app golang go build -buildvcs=false
 
-go build
+docker build -t ping .
 
 gone-cli node -- docker run --rm -d --network gone_net --name ping-1 --hostname ping-1 --ip 10.1.0.100 ping
 gone-cli node -- docker run --rm -d --network gone_net --name ping-2 --hostname ping-2 --ip 10.1.0.101 ping
@@ -54,7 +55,7 @@ gone-cli connect -w 1G -r router3 router1
 
 gone-cli propagate router3
 
-gone-cli intercept -n ping-1 -i example 
+gone-cli intercept -i example -n ping-1 
 
 gone-cli unpause -a
 
